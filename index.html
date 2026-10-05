@@ -188,14 +188,46 @@
         .preview-container {
             margin-top: 15px;
             text-align: center;
+            display: none;
+        }
+
+        .preview-wrapper {
+            position: relative;
+            display: inline-block;
         }
 
         #imagePreview {
             max-width: 100%;
             max-height: 220px;
             border: 1px solid var(--accent-blue);
-            display: none;
+            display: block;
             filter: contrast(1.1);
+        }
+
+        .cancel-btn {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background-color: var(--accent-red);
+            color: #ffffff;
+            border: 1px solid var(--border);
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            font-size: 16px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 0 8px var(--accent-red);
+            transition: transform 0.2s, background-color 0.2s;
+            line-height: 1;
+        }
+
+        .cancel-btn:hover {
+            transform: scale(1.15);
+            background-color: #ff2266;
         }
 
         button.scan-btn {
@@ -288,8 +320,11 @@
             </label>
             <input type="file" id="fileInput" accept="image/*" onchange="previewImage(event)">
             
-            <div class="preview-container">
-                <img id="imagePreview" alt="Target Scan Preview">
+            <div class="preview-container" id="previewContainer">
+                <div class="preview-wrapper">
+                    <img id="imagePreview" alt="Target Scan Preview">
+                    <button class="cancel-btn" onclick="clearImage()" title="Remove Image">&times;</button>
+                </div>
             </div>
 
             <button class="scan-btn" onclick="runAnalysis()">Initiate Diagnostic Scan</button>
@@ -324,13 +359,23 @@
         }
 
         function previewImage(event) {
-            const reader = new FileReader();
-            reader.onload = function() {
-                const output = document.getElementById('imagePreview');
-                output.src = reader.result;
-                output.style.display = 'inline-block';
-            };
-            reader.readAsDataURL(event.target.files[0]);
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function() {
+                    const output = document.getElementById('imagePreview');
+                    output.src = reader.result;
+                    document.getElementById('previewContainer').style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function clearImage() {
+            const fileInput = document.getElementById('fileInput');
+            fileInput.value = ''; 
+            document.getElementById('imagePreview').src = '';
+            document.getElementById('previewContainer').style.display = 'none';
         }
 
         async function runAnalysis() {
