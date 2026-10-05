@@ -37,7 +37,7 @@
             color: var(--text-main);
             font-family: 'Share Tech Mono', 'Courier New', monospace;
             margin: 0;
-            padding: 20px;
+            padding: 20px 40px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -55,7 +55,7 @@
             align-items: center;
             border-bottom: 2px solid var(--accent-blue);
             padding-bottom: 15px;
-            background: linear-gradient(90deg, var(--shadow) 0%, transparent 100%);
+            background: transparent;
         }
 
         .header-title h1 {
@@ -135,7 +135,7 @@
 
         @media (max-width: 768px) {
             .container { grid-template-columns: 1fr; }
-            header { flex-direction: row; }
+            body { padding: 20px; }
         }
 
         .panel {
@@ -268,13 +268,13 @@
         </div>
         <div class="theme-switch-wrapper">
             
-            <svg class="switch-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2m-4.22-7.78l1.42-1.42M5.64 18.36l1.42-1.42" stroke="var(--icon-color)" stroke-width="2" stroke-linecap="round"/></svg>
+            <svg class="switch-icon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="var(--icon-color)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
             <label class="theme-switch" for="checkbox">
                 <input type="checkbox" id="checkbox" onclick="toggleTheme()" />
                 <div class="slider"></div>
             </label>
             
-            <svg class="switch-icon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="var(--icon-color)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <svg class="switch-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2m-4.22-7.78l1.42-1.42M5.64 18.36l1.42-1.42" stroke="var(--icon-color)" stroke-width="2" stroke-linecap="round"/></svg>
         </div>
     </header>
 
