@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CerebDX</title>
+    <link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root[data-theme="dark"] {
+            --bg-color: #040812;
+            --panel-bg: #0a1324;
+            --accent-blue: #00f0ff;
+            --accent-secondary: #0066ff;
+            --accent-red: #ff0055;
+            --text-main: #e0f2fe;
+            --text-muted: #64748b;
+            --border: #1e3a8a;
+            --shadow: rgba(0, 240, 255, 0.15);
+            --icon-color: #00f0ff;
+        }
+
+        :root[data-theme="light"] {
+            --bg-color: #f0f8ff;
+            --panel-bg: #ffffff;
+            --accent-blue: #0066cc;
+            --accent-secondary: #004080;
+            --accent-red: #cc0044;
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --border: #cbd5e1;
+            --shadow: rgba(0, 102, 204, 0.15);
+            --icon-color: #0066cc;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Share Tech Mono', 'Courier New', monospace;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        header {
+            width: 100%;
+            max-width: 1000px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--accent-blue);
+            padding-bottom: 15px;
+            background: linear-gradient(90deg, var(--shadow) 0%, transparent 100%);
+        }
+
+        .header-title h1 {
+            font-family: 'Audiowide', cursive;
+            color: var(--accent-blue);
+            font-size: 2.2rem;
+            margin: 0;
+            letter-spacing: 2px;
+            text-shadow: 0 0 12px var(--shadow);
+        }
+
+        .theme-switch-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .switch-icon {
+            width: 20px;
+            height: 20px;
+            fill: var(--icon-color);
+            transition: fill 0.3s;
+        }
+
+        .theme-switch {
+            position: relative;
+            display: inline-block;
+            width: 56px;
+            height: 28px;
+        }
+
+        .theme-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: var(--border);
+            transition: 0.4s;
+            border-radius: 28px;
+            border: 1px solid var(--accent-blue);
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 3px;
+            bottom: 3px;
+            background-color: var(--accent-blue);
+            transition: 0.4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: var(--panel-bg);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(28px);
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            width: 100%;
+            max-width: 1000px;
+            margin: auto 0;
+            padding: 30px 0;
+        }
+
+        @media (max-width: 768px) {
+            .container { grid-template-columns: 1fr; }
+            header { flex-direction: row; }
+        }
+
+        .panel {
+            background-color: var(--panel-bg);
+            border: 1px solid var(--border);
+            padding: 25px;
+            position: relative;
+            box-shadow: 5px 5px 0px var(--border);
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        .panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            border-width: 0 15px 15px 0;
+            border-style: solid;
+            border-color: var(--accent-blue) var(--bg-color);
+        }
+
+        .panel h3 {
+            color: var(--accent-blue);
+            margin-top: 0;
+            border-bottom: 1px dashed var(--border);
+            padding-bottom: 10px;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .upload-dropzone {
+            display: block;
+            border: 2px dashed var(--accent-blue);
+            padding: 40px 20px;
+            text-align: center;
+            cursor: pointer;
+            background: var(--shadow);
+            transition: background 0.3s, border-color 0.3s;
+            margin-top: 15px;
+        }
+
+        .upload-dropzone:hover {
+            border-color: var(--accent-secondary);
+            background: rgba(0, 102, 255, 0.08);
+        }
+
+        input[type="file"] { display: none; }
+
+        .preview-container {
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        #imagePreview {
+            max-width: 100%;
+            max-height: 220px;
+            border: 1px solid var(--accent-blue);
+            display: none;
+            filter: contrast(1.1);
+        }
+
+        button.scan-btn {
+            background-color: var(--accent-blue);
+            color: #040812;
+            border: none;
+            width: 100%;
+            padding: 14px;
+            font-weight: 900;
+            font-family: inherit;
+            font-size: 1.1rem;
+            cursor: pointer;
+            margin-top: 20px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            clip-path: polygon(0 0, 95% 0, 100% 30%, 100% 100%, 5% 100%, 0 70%);
+            transition: background 0.2s, transform 0.1s;
+        }
+
+        button.scan-btn:hover {
+            background-color: var(--accent-secondary);
+            color: #ffffff;
+        }
+
+        .result-item {
+            margin-bottom: 15px;
+        }
+
+        .class-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .progress-bar {
+            background-color: var(--border);
+            height: 10px;
+            border-radius: 0;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        .progress-fill {
+            background-color: var(--accent-blue);
+            height: 100%;
+            width: 0%;
+            transition: width 0.6s cubic-bezier(0.1, 1, 0.1, 1);
+        }
+
+        .disclaimer {
+            width: 100%;
+            max-width: 1000px;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-align: center;
+            border-top: 1px solid var(--border);
+            padding-top: 15px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-title">
+            <h1>CerebDX</h1>
+        </div>
+        <div class="theme-switch-wrapper">
+            <!-- Blue Sun Icon -->
+            <svg class="switch-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2m-4.22-7.78l1.42-1.42M5.64 18.36l1.42-1.42" stroke="var(--icon-color)" stroke-width="2" stroke-linecap="round"/></svg>
+            <label class="theme-switch" for="checkbox">
+                <input type="checkbox" id="checkbox" onclick="toggleTheme()" />
+                <div class="slider"></div>
+            </label>
+            <!-- Blue Moon Icon -->
+            <svg class="switch-icon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="var(--icon-color)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Left Panel: Input -->
+        <div class="panel">
+            <h3>Upload Data</h3>
+            <label class="upload-dropzone" for="fileInput">
+                <p style="margin: 0 0 10px 0; font-weight: bold; color: var(--accent-blue); text-transform: uppercase;">[ Drop File or Click to Select ]</p>
+                <span style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase;">Accepted: .JPG, .PNG</span>
+            </label>
+            <input type="file" id="fileInput" accept="image/*" onchange="previewImage(event)">
+            
+            <div class="preview-container">
+                <img id="imagePreview" alt="Target Scan Preview">
+            </div>
+
+            <button class="scan-btn" onclick="runAnalysis()">Initiate Diagnostic Scan</button>
+        </div>
+
+        <!-- Right Panel: Output -->
+        <div class="panel">
+            <h3>Diagnosis</h3>
+            <div id="resultsContent">
+                <p style="color: var(--text-muted); text-align: center; margin-top: 80px; letter-spacing: 1px; text-transform: uppercase;">Your results will appear here</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="disclaimer">
+        Disclaimer: CerebDX Biosystems. For experimental machine learning & simulation purposes only. Does not constitute medical licensure or certified clinical diagnosis.
+    </div>
+
+    <script>
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('cerebdx_theme', newTheme);
+        }
+
+        const savedTheme = localStorage.getItem('cerebdx_theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        if (savedTheme === 'light') {
+            document.getElementById('checkbox').checked = true;
+        }
+
+        function previewImage(event) {
+            const reader = new FileReader();
+            reader.onload = function() {
+                const output = document.getElementById('imagePreview');
+                output.src = reader.result;
+                output.style.display = 'inline-block';
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        }
+
+        async function runAnalysis() {
+            const fileInput = document.getElementById('fileInput');
+            if (fileInput.files.length === 0) {
+                alert('Error: No target scan detected in buffer.');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('file', fileInput.files[0]);
+
+            const resultsDiv = document.getElementById('resultsContent');
+            resultsDiv.innerHTML = '<p style="text-align: center; color: var(--accent-blue); margin-top: 80px; text-transform: uppercase;">Decrypting neural tensor weights...</p>';
+
+            try {
+                const response = await fetch('/api/predict', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                if(data.error) {
+                    resultsDiv.innerHTML = `<p style="color: var(--accent-red); text-transform: uppercase;">Critical Error: ${data.error}</p>`;
+                    return;
+                }
+
+                let html = `<p style="margin-bottom: 20px; text-transform: uppercase;"><strong>Primary Determination:</strong> <span style="color: var(--accent-blue); font-size: 1.1rem;">${data.prediction}</span></p>`;
+                
+                for (const [cls, prob] of Object.entries(data.probabilities)) {
+                    const percentage = (prob * 100).toFixed(1);
+                    html += `
+                        <div class="result-item">
+                            <div class="class-label">
+                                <span>${cls}</span>
+                                <span style="color: var(--accent-blue);">${percentage}%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: ${percentage}%"></div>
+                            </div>
+                        </div>
+                    `;
+                }
+                resultsDiv.innerHTML = html;
+
+            } catch (err) {
+                resultsDiv.innerHTML = `<p style="color: var(--accent-red); text-transform: uppercase;">Net Link Failure: ${err.message}</p>`;
+            }
+        }
+    </script>
+</body>
+</html>
