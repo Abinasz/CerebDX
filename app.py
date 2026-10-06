@@ -14,8 +14,7 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-# Define your categories
-CLASS_NAMES = ['Potential Abnormality Detected', 'Normal Scan / No Tumor']
+CLASS_NAMES = ['Glioma', 'Meningioma', 'No Tumor', 'Pituitary']
 
 # Load pre-trained model weights (no training required)
 weights = models.ResNet18_Weights.DEFAULT
