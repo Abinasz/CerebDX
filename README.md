@@ -27,26 +27,27 @@ CerebDX/
 ├── app.py             # Flask backend server and PyTorch inference engine
 └── README.md          # Project documentation
 ```
-
+----------------------------------------------------------------------------------------------------
 Installation and Quick Start
 Follow these instructions to run CerebDX locally on your machine:
 
-##1. Clone the Repository
+## Clone the Repository
 git clone [https://github.com/YOUR_USERNAME/CerebDX.git](https://github.com/abinasz/CerebDX.git)
 
-##2. Install Dependencies
+## Install Dependencies
 Ensure Python is installed, then install the required Python packages:
 pip install flask torch torchvision pillow
 
-##3. Run the Application
+## Run the Application
 Start the Flask development server:
 python app.py
 
-##4. Access the Web Application
+## Access the Web Application
 Open a web browser and navigate to the local address:
 [http://127.0.0.1:5000](http://127.0.0.1:5000)
 
 that's it folks but remember this is an AI sytems project not a ML project.
+-----------------------------------------------------------------------------------------------------
 
 #Disclaimer
 CerebDX Biosystems. For experimental machine learning and simulation purposes only. Does not constitute medical licensure or certified clinical diagnosis._
