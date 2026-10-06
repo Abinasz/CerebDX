@@ -21,11 +21,11 @@ CerebDX bridges the gap between AI and intuitive web interfaces. Featuring a cus
 ```text
 CerebDX/
 ├── static/
-│   └── uploads/       # Directory for user-uploaded scan images
+│   └── uploads/       
 ├── templates/
-│   └── index.html     # Frontend user interface template
-├── app.py             # Flask backend server and PyTorch inference engine
-└── README.md          # Project documentation
+│   └── index.html    
+├── app.py            
+└── README.md         
 ```
 ----------------------------------------------------------------------------------------------------
 Installation and Quick Start
