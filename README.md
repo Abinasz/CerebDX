@@ -1,4 +1,4 @@
-_# CerebDX
+## CerebDX
 
 CerebDX is a full-stack AI web application designed for processing and classifying medical brain scan images through a real-time neural network inference pipeline.
 IDK i just wanted to make a Cyberpunk theme interface so i made this thing
@@ -31,18 +31,18 @@ CerebDX/
 Installation and Quick Start
 Follow these instructions to run CerebDX locally on your machine:
 
-#1. Clone the Repository
+##1. Clone the Repository
 git clone [https://github.com/YOUR_USERNAME/CerebDX.git](https://github.com/abinasz/CerebDX.git)
 
-#2. Install Dependencies
+##2. Install Dependencies
 Ensure Python is installed, then install the required Python packages:
 pip install flask torch torchvision pillow
 
-#4. Run the Application
+##3. Run the Application
 Start the Flask development server:
 python app.py
 
-#4. Access the Web Application
+##4. Access the Web Application
 Open a web browser and navigate to the local address:
 [http://127.0.0.1:5000](http://127.0.0.1:5000)
 
